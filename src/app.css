@@ -99,7 +99,7 @@ nav a:hover {
    Hero Section
 ================================ */
 .hero {
-  margin-top: 70px;
+  margin-top: 80px;
   /* background: linear-gradient(
     135deg,
     rgba(11, 125, 69, 0.9) 0%,
@@ -110,7 +110,7 @@ nav a:hover {
   background-position: center; /* keep image centered */
   background-repeat: no-repeat; /* avoid tiling */
   color: white;
-  padding: 6rem 2rem;
+  padding: 12rem 2rem;
   text-align: center;
 }
 
