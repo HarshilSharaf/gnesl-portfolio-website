@@ -1,0 +1,208 @@
+{
+    "header": {
+        "title": "WindPower Solutions",
+        "nav": [
+            {
+                "label": "Home",
+                "id": "hero"
+            },
+            {
+                "label": "Services",
+                "id": "services"
+            },
+            {
+                "label": "Process",
+                "id": "process"
+            },
+            {
+                "label": "Projects",
+                "id": "projects"
+            },
+            {
+                "label": "Contact",
+                "id": "contact"
+            }
+        ]
+    },
+    "hero": {
+        "title": "Complete Windmill Solutions",
+        "subtitle": "From planning to erection, we provide end-to-end windmill services for sustainable energy generation.Transform wind into power with our expertise.",
+        "cta": "Start Your Project"
+    },
+    "stats": [
+        {
+            "value": "150+",
+            "label": "Windmills Installed"
+        },
+        {
+            "value": "500MW",
+            "label": "Total Capacity"
+        },
+        {
+            "value": "15",
+            "label": "Years Experience"
+        },
+        {
+            "value": "98%",
+            "label": "Client Satisfaction"
+        }
+    ],
+    "services": {
+        "title": "Our Comprehensive Services",
+        "items": [
+            {
+                "key": "site_assessment",
+                "title": "Site Assessment & Planning",
+                "description": "Comprehensive wind resource analysis, environmental impact studies, and optimal site selection for maximum energy generation potential.",
+                "svg_icon_path": "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+            },
+            {
+                "key": "engineering_design",
+                "title": "Engineering & Design",
+                "description": "Custom windmill design, structural engineering, electrical system planning, and grid integration solutions tailored to your needs.",
+                "svg_icon_path": "M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"
+            },
+            {
+                "key": "permits_compliance",
+                "title": "Permits & Compliance",
+                "description": "Full regulatory compliance support, permit acquisition, environmental clearances, and liaison with local authorities.",
+                "svg_icon_path": "M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"
+            },
+            {
+                "key": "procurement_logistics",
+                "title": "Procurement & Logistics",
+                "description": "Strategic sourcing of quality components, efficient supply chain management, and safe transportation to project sites.",
+                "svg_icon_path": "M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+            },
+            {
+                "key": "installation_erection",
+                "title": "Installation & Erection",
+                "description": "Professional tower erection, turbine installation, electrical connections, and complete commissioning by certified technicians.",
+                "svg_icon_path": "M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"
+            },
+            {
+                "key": "maintenance_support",
+                "title": "Maintenance & Support",
+                "description": "24/7 monitoring, preventive maintenance, emergency repairs, performance optimization, and long-term service agreements.",
+                "svg_icon_path": "M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"
+            }
+        ]
+    },
+    "process": {
+        "title": "Our Proven Process",
+        "steps": [
+            {
+                "key": "consultation_assessment",
+                "title": "Consultation & Assessment",
+                "description": "Initial site visit, wind resource evaluation, feasibility study, and project scope definition with detailed cost estimates."
+            },
+            {
+                "key": "design_engineering",
+                "title": "Design & Engineering",
+                "description": "Detailed engineering design, structural calculations, electrical schematics, and comprehensive project documentation."
+            },
+            {
+                "key": "approvals_permits",
+                "title": "Approvals & Permits",
+                "description": "Regulatory submissions, environmental clearances, grid connection approvals, and all necessary permits secured."
+            },
+            {
+                "key": "procurement_preparation",
+                "title": "Procurement & Preparation",
+                "description": "Component sourcing, site preparation, foundation construction, and logistics coordination for seamless execution."
+            },
+            {
+                "key": "installation_commissioning",
+                "title": "Installation & Commissioning",
+                "description": "Professional installation, thorough testing, grid synchronization, and full system commissioning with performance verification."
+            },
+            {
+                "key": "ongoing_support",
+                "title": "Ongoing Support",
+                "description": "Regular maintenance, performance monitoring, troubleshooting, and continuous optimization for maximum energy output."
+            }
+        ]
+    },
+    "projects": {
+        "title": "Featured Projects",
+        "items": [
+            {
+                "key": "coastal_wind_farm",
+                "icon": "🌬️",
+                "title": "Coastal Wind Farm",
+                "description": "Large-scale offshore wind installation delivering clean energy to coastal communities with exceptional efficiency.",
+                "stats": [
+                    {
+                        "value": "25",
+                        "label": "Turbines"
+                    },
+                    {
+                        "value": "75MW",
+                        "label": "Capacity"
+                    }
+                ]
+            },
+            {
+                "key": "mountain_ridge_installation",
+                "icon": "⚡",
+                "title": "Mountain Ridge Installation",
+                "description": "High-altitude wind project maximizing natural wind corridors for optimal power generation in challenging terrain.",
+                "stats": [
+                    {
+                        "value": "40",
+                        "label": "Turbines"
+                    },
+                    {
+                        "value": "120MW",
+                        "label": "Capacity"
+                    }
+                ]
+            },
+            {
+                "key": "industrial_park_solution",
+                "icon": "🏭",
+                "title": "Industrial Park Solution",
+                "description": "Custom wind energy system providing reliable renewable power for manufacturing facilities and reducing carbon footprint.",
+                "stats": [
+                    {
+                        "value": "12",
+                        "label": "Turbines"
+                    },
+                    {
+                        "value": "36MW",
+                        "label": "Capacity"
+                    }
+                ]
+            }
+        ]
+    },
+    "contact": {
+        "title": "Ready to Harness Wind Energy?",
+        "subtitle": "Let's discuss your windmill project and create a sustainable energy solution tailored to your needs.",
+        "cta": "Get In Touch",
+        "primaryEmail": "info@windpowersolutions.com",
+        "items": [
+            {
+                "key": "address",
+                "title": "Visit Us",
+                "html_data": "<p>123 Wind Energy Park<br>Green City, GC 12345</p>",
+                "svg_icon_path": "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+            },
+            {
+                "key": "emails",
+                "title": "Email Us",
+                "svg_icon_path": "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z",
+                "html_data": "<p>info@windpowersolutions.com<br>support@windpowersolutions.com</p>"
+            },
+            {
+                "key": "phone",
+                "title": "Call Us",
+                "html_data": "<p>+1 (555) 123-4567<br>24/7 Support Available</p>",
+                "svg_icon_path": "M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+            }
+        ]
+    },
+    "footer": {
+        "copyright": "© {{year}} WindPower Solutions. All rights reserved."
+    }
+}
