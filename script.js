@@ -1,7 +1,7 @@
 // Smooth scrolling for navigation links
 document.addEventListener("DOMContentLoaded", function () {
   // Smooth scroll for anchor links
-  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  const navLinks = document.querySelectorAll('a[href^="#"]');
 
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.querySelectorAll("nav a").forEach((link) => {
             link.style.color = "white";
           });
-          correspondingLink.style.color = "#05BFDB";
+          correspondingLink.style.color = "black";
         }
       }
     });
@@ -150,46 +150,3 @@ ctaButtons.forEach((button) => {
     this.style.transform = "translateY(0) scale(1)";
   });
 });
-
-// Mobile menu toggle (for future implementation)
-function createMobileMenu() {
-  const nav = document.querySelector("nav");
-  const navUl = document.querySelector("nav ul");
-
-  // Create hamburger menu button
-  const menuButton = document.createElement("button");
-  menuButton.className = "mobile-menu-button";
-  menuButton.innerHTML = "☰";
-  menuButton.style.display = "none";
-  menuButton.style.background = "none";
-  menuButton.style.border = "none";
-  menuButton.style.color = "white";
-  menuButton.style.fontSize = "2rem";
-  menuButton.style.cursor = "pointer";
-
-  // Toggle menu on button click
-  menuButton.addEventListener("click", function () {
-    navUl.classList.toggle("active");
-  });
-
-  // Show/hide mobile menu button based on screen size
-  function checkScreenSize() {
-    if (window.innerWidth <= 768) {
-      menuButton.style.display = "block";
-      navUl.style.display = navUl.classList.contains("active")
-        ? "flex"
-        : "none";
-    } else {
-      menuButton.style.display = "none";
-      navUl.style.display = "flex";
-    }
-  }
-
-  nav.insertBefore(menuButton, navUl);
-
-  window.addEventListener("resize", checkScreenSize);
-  checkScreenSize();
-}
-
-// Initialize mobile menu
-createMobileMenu();
