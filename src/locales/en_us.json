@@ -1,6 +1,6 @@
 {
     "header": {
-        "title": "WindPower Solutions",
+        "title": "GNESL",
         "nav": [
             {
                 "label": "Home",
@@ -176,6 +176,26 @@
             }
         ]
     },
+    "team": {
+        "members_info": [
+            {
+                "name": "Rahul Sharma",
+                "role": "Founder & CEO",
+                "bio": "With over 18 years of experience in renewable energy, Rahul leads the company with a vision to accelerate the transition to sustainable power through innovative wind solutions.",
+                "image": "https://placehold.net/avatar-3.png",
+                "linkedin": "#",
+                "email": "mailto:info@company.com"
+            },
+            {
+                "name": "Anita Verma",
+                "role": "CTO",
+                "bio": "Expert in wind turbine technology and grid optimization.",
+                "image": "https://placehold.net/avatar-3.png",
+                "linkedin": "https://linkedin.com/in/anitaverma",
+                "email": "mailto:anita@company.com"
+            }
+        ]
+    },
     "contact": {
         "title": "Ready to Harness Wind Energy?",
         "subtitle": "Let's discuss your windmill project and create a sustainable energy solution tailored to your needs.",
@@ -203,6 +223,6 @@
         ]
     },
     "footer": {
-        "copyright": "© {{year}} WindPower Solutions. All rights reserved."
+        "copyright": "© 2026 GNESL PVT LTD. All rights reserved."
     }
 }

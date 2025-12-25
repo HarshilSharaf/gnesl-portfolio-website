@@ -6,7 +6,7 @@
   <div class="contact-container">
     <h2>{contact.title}</h2>
     <p>{contact.subtitle}</p>
-    <a href="mailto:{contact.primaryEmail}" class="cta-button">
+    <a href="mailto:{contact.primaryEmail}" class="cta-button btn-white">
       {contact.cta}
     </a>
 

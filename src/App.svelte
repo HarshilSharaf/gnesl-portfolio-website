@@ -8,6 +8,7 @@
   import Projects from "./components/Projects.svelte";
   import Contact from "./components/Contact.svelte";
   import Footer from "./components/Footer.svelte";
+  import Team from "./components/Team.svelte";
 </script>
 
 <Header header={content.header} />
@@ -17,6 +18,7 @@
   <Services services={content.services} />
   <Process process={content.process} />
   <Projects projects={content.projects} />
+  <Team team={content.team}></Team>
   <Contact contact={content.contact} />
 </main>
 <Footer footer={content.footer} />
