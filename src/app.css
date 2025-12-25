@@ -236,6 +236,21 @@ nav a:hover {
 }
 
 /* ================================
+   Typing Effect
+================================ */
+.typing::after {
+  content: "|";
+  margin-left: 4px;
+  animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ================================
    Services Section
 ================================ */
 .services {
@@ -447,7 +462,6 @@ nav a:hover {
   color: var(--text-muted);
 }
 
-
 /* ================= OUR TEAM ================= */
 
 /* ================= OUR TEAM SECTION ================= */
@@ -480,7 +494,7 @@ nav a:hover {
   box-shadow: var(--shadow-soft);
 
   display: flex;
-  flex-direction: column;      /* image on top, content below */
+  flex-direction: column; /* image on top, content below */
   align-items: center;
   text-align: center;
 
@@ -564,7 +578,6 @@ nav a:hover {
     justify-content: center;
   }
 }
-
 
 /* ================================
    Contact Section
