@@ -1,5 +1,6 @@
 <script>
   import content from "./locales/en_us.json";
+  import LoadingOverlay from "./components/LoadingOverlay.svelte";
   import Header from "./components/Header.svelte";
   import Hero from "./components/Hero.svelte";
   import Stats from "./components/Stats.svelte";
@@ -10,6 +11,8 @@
   import Footer from "./components/Footer.svelte";
   import Team from "./components/Team.svelte";
 </script>
+
+<LoadingOverlay />
 
 <Header header={content.header} />
 <main>
