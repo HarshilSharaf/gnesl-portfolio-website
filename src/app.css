@@ -142,7 +142,7 @@ nav a:hover {
     rgba(11, 125, 69, 0.9) 0%,
     rgba(15, 157, 88, 0.9) 100%
   ); */
-  background-image: url("./assets/images/bg_windfarm.jpg");
+  background-image: url("./assets/images/bg_windfarm_compressed.jpg");
   background-size: cover; /* fill container, keep aspect ratio */
   background-position: center; /* keep image centered */
   background-repeat: no-repeat; /* avoid tiling */
