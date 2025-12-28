@@ -19,39 +19,41 @@
                 "id": "projects"
             },
             {
+                "label": "Our Team",
+                "id": "team"
+            },
+            {
                 "label": "Contact",
                 "id": "contact"
             }
         ]
     },
     "hero": {
-        "title": "Complete Windmill Solutions",
-        "subtitle": "From planning to erection, we provide end-to-end windmill services for sustainable energy generation.Transform wind into power with our expertise.",
+        "title": "Powering the future with",
+        "subtitle_html": "<p>The future runs on <span class=\"green\">green</span> and we make it happen!</p>",
         "cta": "Start Your Project",
         "typing_texts": [
             "Clean Energy",
-            "Wind Innovation",
             "Sustainable Power",
             "Renewable Solutions"
-        ],
-        "typing_text_subtitle": "End-to-end wind energy solutions for a greener tomorrow."
+        ]
     },
     "stats": [
         {
-            "value": "150+",
-            "label": "Windmills Installed"
+            "value": "50+",
+            "label": "Projects Delivered" 
         },
         {
             "value": "500MW",
-            "label": "Total Capacity"
+            "label": "Total Capacity Commissioned"
         },
         {
-            "value": "15",
+            "value": "25",
             "label": "Years Experience"
         },
         {
             "value": "98%",
-            "label": "Client Satisfaction"
+            "label": "Recurring Client Base"
         }
     ],
     "services": {
@@ -200,12 +202,20 @@
                 "image": "https://placehold.net/avatar-3.png",
                 "linkedin": "https://linkedin.com/in/anitaverma",
                 "email": "mailto:anita@company.com"
+            },
+            {
+                "name": "Raj Gorphad",
+                "role": "Manger",
+                "bio": "Expert in wind turbine technology and grid optimization.",
+                "image": "https://placehold.net/avatar-3.png",
+                "linkedin": "https://linkedin.com/in/anitaverma",
+                "email": "mailto:anita@company.com"
             }
         ]
     },
     "contact": {
-        "title": "Ready to Harness Wind Energy?",
-        "subtitle": "Let's discuss your windmill project and create a sustainable energy solution tailored to your needs.",
+        "title": "Ready to Invest in Sustainable Power?",
+        "subtitle": "Let’s transform your vision into a sustainable energy solution.",
         "cta": "Get In Touch",
         "primaryEmail": "info@windpowersolutions.com",
         "items": [

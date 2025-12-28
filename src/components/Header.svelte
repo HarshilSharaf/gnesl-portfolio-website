@@ -1,7 +1,7 @@
 <!-- src/components/Header.svelte -->
 <script>
   export let header;
-  import logo from "../assets/images/logo_new_3.png";
+  import logo from "../assets/images/logo.png";
 
   let menuOpen = false;
 

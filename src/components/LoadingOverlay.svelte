@@ -416,7 +416,7 @@
         <!-- Loading Text -->
         <div class="loading-text animate__animated animate__fadeIn">
           <h2 class="animate__animated animate__flash animate__infinite">
-            Harnessing Wind Energy
+            Harnessing Renewable Energy
           </h2>
           <!-- <div class="loading-dots">
             <span
