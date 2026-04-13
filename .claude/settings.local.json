@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:5173/gnesl-portfolio-website/src/components/Hero.svelte)",
+      "Bash(curl -s http://localhost:5173/gnesl-portfolio-website/src/components/Header.svelte)",
+      "Bash(curl:*)",
+      "Bash(bun run:*)",
+      "Bash(start http://localhost:5173/gnesl-portfolio-website/)",
+      "Bash(bun add:*)"
+    ]
+  }
+}

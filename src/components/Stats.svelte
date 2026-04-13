@@ -2,7 +2,6 @@
   export let stats;
 </script>
 
-
 <section class="stats">
   <div class="stats-container">
     {#each stats as stat}

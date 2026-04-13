@@ -1,569 +1,496 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WindPower Solutions - Loading</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <style>
-      /* Loading Screen Styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<script>
+  import { onMount } from "svelte";
 
-      body {
-        overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Oxygen, Ubuntu, Cantarell, sans-serif;
-      }
+  export let onLoadingComplete = () => {};
 
-      #loader-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: var(--bg-dark);
-        /* background: linear-gradient(
-          135deg,
-          #0a4d3c 0%,
-          #1a7a5e 50%,
-          #2d9f7a 100%
-        ); */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-      }
+  let visible = true;
+  let fadeOut = false;
+  let alive = false;
+  let showText = false;
+  let timers = [];
 
-      /* Fade Out Animation for entire wrapper */
-      .loader-wrapper.fade-out {
-        animation: fadeOutUp 1.5s ease-in-out forwards;
-      }
+  const letters = "GNESL".split("");
 
-      @keyframes fadeOutUp {
-        0% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        100% {
-          opacity: 0;
-          transform: scale(1.1);
-        }
-      }
+  onMount(() => {
+    document.body.style.overflow = "hidden";
 
-      .loader-content {
-        text-align: center !important;
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-      }
+    timers = [
+      setTimeout(() => { alive = true; }, 1600),
+      setTimeout(() => { showText = true; }, 2100),
+      setTimeout(() => dismiss(), 3500),
+    ];
 
-      /* Windmill Animation */
-      .windmill {
-        position: relative;
-        width: 200px;
-        height: 250px;
-        margin: 0 auto 2rem;
-      }
+    return () => timers.forEach(clearTimeout);
+  });
 
-      .windmill-tower {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 30px;
-        height: 150px;
-        background: linear-gradient(180deg, #34a873 0%, #2d8f63 100%);
-        border-radius: 5px 5px 0 0;
-        box-shadow: 0 5px 20px rgba(52, 168, 115, 0.3);
-      }
+  function dismiss() {
+    if (fadeOut) return;
+    fadeOut = true;
+    timers.forEach(clearTimeout);
+    setTimeout(() => {
+      visible = false;
+      document.body.style.overflow = "auto";
+      onLoadingComplete();
+    }, 900);
+  }
+</script>
 
-      .windmill-blades {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 180px;
-        height: 180px;
-        animation: rotate 3s linear infinite;
-      }
-
-      @keyframes rotate {
-        from {
-          transform: translateX(-50%) rotate(0deg);
-        }
-        to {
-          transform: translateX(-50%) rotate(360deg);
-        }
-      }
-
-      .blade {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 80px;
-        height: 20px;
-        background: linear-gradient(90deg, #4cceac 0%, #34a873 100%);
-        border-radius: 50px 0 0 50px;
-        transform-origin: right center;
-        box-shadow: 0 3px 15px rgba(76, 206, 172, 0.4);
-      }
-
-      .blade-1 {
-        transform: translate(-100%, -50%) rotate(0deg);
-      }
-
-      .blade-2 {
-        transform: translate(-100%, -50%) rotate(120deg);
-      }
-
-      .blade-3 {
-        transform: translate(-100%, -50%) rotate(240deg);
-      }
-
-      .windmill-center {
-        position: absolute;
-        top: 90px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 25px;
-        height: 25px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow:
-          0 0 20px rgba(76, 206, 172, 0.6),
-          0 0 40px rgba(76, 206, 172, 0.4);
-        z-index: 2;
-        animation: pulse 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) scale(1);
-        }
-        50% {
-          transform: translate(-50%, -50%) scale(1.2);
-        }
-      }
-
-      /* Loading Text */
-      .loading-text {
-        color: #fff;
-        margin-bottom: 2rem;
-        text-align: center !important;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .loading-text h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        text-align: center !important;
-        width: 100%;
-        display: block;
-      }
-
-      .loading-dots {
-        display: flex;
-        justify-content: center;
-        margin-top: 1rem;
-        gap: 0.5rem;
-      }
-
-      .dot {
-        width: 12px;
-        height: 12px;
-        background: #4cceac;
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(76, 206, 172, 0.6);
-      }
-
-      /* Progress Bar */
-      .progress-container {
-        width: 300px;
-        height: 8px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        margin: auto 1rem;
-        overflow: hidden;
-        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-
-      .progress-bar {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(
-          90deg,
-          #4cceac 0%,
-          #34a873 50%,
-          #2d9f7a 100%
-        );
-        border-radius: 50px;
-        transition: width 0.3s ease;
-        box-shadow:
-          0 0 20px rgba(76, 206, 172, 0.6),
-          0 0 40px rgba(76, 206, 172, 0.4);
-        animation:
-          glow 2s ease-in-out infinite,
-          progressFill 3s ease-in-out forwards;
-      }
-
-      @keyframes progressFill {
-        from {
-          width: 0%;
-        }
-        to {
-          width: 100%;
-        }
-      }
-
-      @keyframes glow {
-        0%,
-        100% {
-          box-shadow:
-            0 0 20px rgba(76, 206, 172, 0.6),
-            0 0 40px rgba(76, 206, 172, 0.4);
-        }
-        50% {
-          box-shadow:
-            0 0 30px rgba(76, 206, 172, 0.8),
-            0 0 60px rgba(76, 206, 172, 0.6);
-        }
-      }
-
-      .progress-percentage {
-        color: #4cceac;
-        font-size: 1.2rem;
-        font-weight: 600;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        text-align: center !important;
-        width: 100%;
-      }
-
-      /* Eco Icons */
-      .eco-icons {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 2rem;
-      }
-
-      .eco-icon {
-        font-size: 2rem;
-        animation: float 3s ease-in-out infinite;
-        opacity: 0.8;
-      }
-
-      .eco-icon:nth-child(1) {
-        animation-delay: 0s;
-      }
-
-      .eco-icon:nth-child(2) {
-        animation-delay: 0.5s;
-      }
-
-      .eco-icon:nth-child(3) {
-        animation-delay: 1s;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      /* Background Wind Animation */
-      .bg-animation {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 1;
-      }
-
-      .wind-line {
-        position: absolute;
-        left: -100%;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(76, 206, 172, 0.3) 50%,
-          transparent 100%
-        );
-        animation: windMove 4s linear infinite;
-      }
-
-      @keyframes windMove {
-        0% {
-          left: -100%;
-        }
-        100% {
-          left: 100%;
-        }
-      }
-
-      /* Energy Particles */
-      .energy-particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(76, 206, 172, 0.6);
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(76, 206, 172, 0.8);
-        animation: floatParticle 6s linear infinite;
-      }
-
-      @keyframes floatParticle {
-        0% {
-          transform: translateY(100vh) scale(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100vh) scale(1);
-          opacity: 0;
-        }
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .windmill {
-          width: 150px;
-          height: 200px;
-        }
-
-        .windmill-tower {
-          width: 25px;
-          height: 120px;
-        }
-
-        .windmill-blades {
-          width: 140px;
-          height: 140px;
-        }
-
-        .blade {
-          width: 60px;
-          height: 15px;
-        }
-
-        .windmill-center {
-          top: 70px;
-          width: 20px;
-          height: 20px;
-        }
-
-        .loading-text h2 {
-          font-size: 1.2rem;
-        }
-
-        .progress-container {
-          width: 250px;
-        }
-
-        .eco-icons {
-          gap: 1rem;
-        }
-
-        .eco-icon {
-          font-size: 1.5rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Loading Screen -->
-    <div id="loader-wrapper" class="loader-wrapper">
-      <div class="loader-content">
-        <!-- Animated Windmill -->
-        <div class="windmill animate__animated animate__zoomIn">
-          <div class="windmill-tower"></div>
-          <div class="windmill-blades">
-            <div class="blade blade-1"></div>
-            <div class="blade blade-2"></div>
-            <div class="blade blade-3"></div>
-          </div>
-          <div class="windmill-center"></div>
-        </div>
-
-        <!-- Loading Text -->
-        <div class="loading-text animate__animated animate__fadeIn">
-          <h2 class="animate__animated animate__flash animate__infinite">
-            Harnessing Renewable Energy
-          </h2>
-          <!-- <div class="loading-dots">
-            <span
-              class="dot animate__animated animate__bounce animate__infinite"
-              style="animation-delay: 0s;"
-            ></span>
-            <span
-              class="dot animate__animated animate__bounce animate__infinite"
-              style="animation-delay: 0.2s;"
-            ></span>
-            <span
-              class="dot animate__animated animate__bounce animate__infinite"
-              style="animation-delay: 0.4s;"
-            ></span>
-          </div> -->
-        </div>
-
-        <!-- Progress Bar -->
+{#if visible}
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div class="loader" class:fade-out={fadeOut} on:click={dismiss}>
+    <!-- Background -->
+    <div class="bg">
+      <div class="bg-grid"></div>
+      <div class="bg-orb orb-1"></div>
+      <div class="bg-orb orb-2"></div>
+      <div class="scan-line"></div>
+      {#each Array(10) as _, i}
         <div
-          class="progress-container animate__animated animate__fadeIn"
-          style="animation-delay: 0.3s;"
-        >
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div
-          class="progress-percentage animate__animated animate__fadeIn"
-          id="progressText"
-          style="animation-delay: 0.5s;"
-        >
-          0%
-        </div>
+          class="bg-particle"
+          style="left: {5 + i * 9.5}%; animation-delay: {i * 0.55}s; animation-duration: {6 + (i % 4) * 1.5}s;"
+        ></div>
+      {/each}
+    </div>
 
-        <!-- Eco-friendly Icons -->
-        <div class="eco-icons">
-          <div
-            class="eco-icon animate__animated animate__bounceIn"
-            style="animation-delay: 0.5s;"
-          >
-            🌱
-          </div>
-          <div
-            class="eco-icon animate__animated animate__bounceIn"
-            style="animation-delay: 0.7s;"
-          >
-            ♻️
-          </div>
-          <div
-            class="eco-icon animate__animated animate__bounceIn"
-            style="animation-delay: 0.9s;"
-          >
-            🌍
-          </div>
-        </div>
+    <!-- Centered content -->
+    <div class="center">
+      <!-- Self-drawing turbine -->
+      <div class="turbine" class:alive>
+        <svg viewBox="0 0 200 250" class="turbine-svg">
+          <defs>
+            <linearGradient id="energyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#00d4aa" />
+              <stop offset="100%" stop-color="#0f9d58" />
+            </linearGradient>
+          </defs>
+
+          <!-- Ground silhouette -->
+          <path
+            d="M 10,220 C 40,216 70,223 100,218 C 130,213 160,221 190,217"
+            class="draw ground"
+            pathLength="1"
+          />
+
+          <!-- Tower -->
+          <line
+            x1="100" y1="218" x2="100" y2="100"
+            class="draw tower"
+            pathLength="1"
+          />
+
+          <!-- Hub ring -->
+          <circle
+            cx="100" cy="95" r="6"
+            class="draw hub-ring"
+            pathLength="1"
+          />
+
+          <!-- Blade group (rotates when alive) -->
+          <g class="blades">
+            <path d="M 100,95 C 99,72 99,48 100,25" class="draw blade b1" pathLength="1" />
+            <path d="M 100,95 C 118,108 140,120 161,130" class="draw blade b2" pathLength="1" />
+            <path d="M 100,95 C 82,108 60,120 39,130" class="draw blade b3" pathLength="1" />
+          </g>
+
+          <!-- Energy pulse rings (alive only) -->
+          <circle cx="100" cy="95" r="10" class="pulse p1" />
+          <circle cx="100" cy="95" r="10" class="pulse p2" />
+          <circle cx="100" cy="95" r="10" class="pulse p3" />
+
+          <!-- Hub center glow -->
+          <circle cx="100" cy="95" r="3.5" class="hub-dot" />
+        </svg>
       </div>
 
-      <!-- Animated Background -->
-      <div class="bg-animation">
-        <div class="wind-line" style="top: 20%; animation-delay: 0s;"></div>
-        <div class="wind-line" style="top: 40%; animation-delay: 0.5s;"></div>
-        <div class="wind-line" style="top: 60%; animation-delay: 1s;"></div>
-        <div class="wind-line" style="top: 80%; animation-delay: 1.5s;"></div>
-
-        <!-- Energy Particles -->
-        <div
-          class="energy-particle"
-          style="left: 10%; animation-delay: 0s;"
-        ></div>
-        <div
-          class="energy-particle"
-          style="left: 25%; animation-delay: 1s;"
-        ></div>
-        <div
-          class="energy-particle"
-          style="left: 40%; animation-delay: 2s;"
-        ></div>
-        <div
-          class="energy-particle"
-          style="left: 55%; animation-delay: 0.5s;"
-        ></div>
-        <div
-          class="energy-particle"
-          style="left: 70%; animation-delay: 1.5s;"
-        ></div>
-        <div
-          class="energy-particle"
-          style="left: 85%; animation-delay: 2.5s;"
-        ></div>
+      <!-- Brand text -->
+      <div class="brand" class:visible={showText}>
+        <div class="brand-letters">
+          {#each letters as char, i}
+            <span class="char" style="--i:{i}">{char}</span>
+          {/each}
+        </div>
+        <p class="tagline">Green &amp; Natural Energy Solutions</p>
       </div>
     </div>
 
-    <script>
-      // Minimal JavaScript - Only for progress updates
-      document.addEventListener("DOMContentLoaded", function () {
-        const loaderWrapper = document.getElementById("loader-wrapper");
-        const progressText = document.getElementById("progressText");
+    <!-- Skip hint -->
+    <span class="skip">Click anywhere to skip</span>
 
-        let progress = 0;
-        const loadingDuration = 3000;
-        const intervalTime = 30;
-        const increment = (100 * intervalTime) / loadingDuration;
+    <!-- Exit energy flash -->
+    {#if fadeOut}
+      <div class="flash"></div>
+    {/if}
+  </div>
+{/if}
 
-        // Update progress percentage text
-        const loadingInterval = setInterval(() => {
-          progress += increment;
+<style>
+  /* ─── Loader Shell ─── */
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0a1628;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    animation: loaderIn 0.4s ease;
+  }
 
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(loadingInterval);
+  @keyframes loaderIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-            setTimeout(() => {
-              // Add animate.css classes for exit
-              loaderWrapper.classList.add(
-                "animate__animated",
-                "animate__fadeOut"
-              );
+  .loader.fade-out {
+    animation: loaderOut 0.9s ease forwards;
+    pointer-events: none;
+  }
 
-              setTimeout(() => {
-                loaderWrapper.style.display = "none";
-                document.body.style.overflow = "auto";
-              }, 1000);
-            }, 500);
-          }
+  @keyframes loaderOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.06); }
+  }
 
-          progressText.textContent = Math.floor(progress) + "%";
-        }, intervalTime);
+  /* ─── Background ─── */
+  .bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
 
-        // Skip loader on click
-        loaderWrapper.addEventListener("click", function () {
-          if (progress < 100) {
-            progress = 100;
-            progressText.textContent = "100%";
-            clearInterval(loadingInterval);
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
+  }
 
-            setTimeout(() => {
-              loaderWrapper.classList.add(
-                "animate__animated",
-                "animate__fadeOut"
-              );
+  .bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
 
-              setTimeout(() => {
-                loaderWrapper.style.display = "none";
-                document.body.style.overflow = "auto";
-              }, 1000);
-            }, 500);
-          }
-        });
-      });
-    </script>
-  </body>
-</html>
+  .orb-1 {
+    width: 420px;
+    height: 420px;
+    top: -12%;
+    right: -8%;
+    background: radial-gradient(circle, rgba(15, 157, 88, 0.14) 0%, transparent 70%);
+    animation: orbDrift 18s ease-in-out infinite;
+  }
+
+  .orb-2 {
+    width: 350px;
+    height: 350px;
+    bottom: -10%;
+    left: -6%;
+    background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+    animation: orbDrift 22s ease-in-out infinite reverse;
+  }
+
+  @keyframes orbDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(25px, -15px) scale(1.05); }
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.25) 50%, transparent 90%);
+    animation: scanDown 1.8s ease-in-out 0.1s forwards;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes scanDown {
+    0% { top: 0; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 0.3; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  .bg-particle {
+    position: absolute;
+    bottom: -5%;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 212, 170, 0.35);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 212, 170, 0.3);
+    animation: particleRise linear infinite;
+  }
+
+  @keyframes particleRise {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    8% { opacity: 0.5; transform: scale(1); }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-105vh) scale(0.4); opacity: 0; }
+  }
+
+  /* ─── Content Layout ─── */
+  .center {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  /* ─── Turbine SVG ─── */
+  .turbine {
+    width: 220px;
+    position: relative;
+  }
+
+  .turbine-svg {
+    width: 100%;
+    display: block;
+  }
+
+  /* Self-drawing foundation */
+  .draw {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.75);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke 0.6s ease, filter 0.5s ease;
+  }
+
+  /* Drawing timeline */
+  .ground {
+    stroke-width: 1.2;
+    animation: drawPath 0.5s ease-out 0.3s forwards;
+  }
+
+  .tower {
+    stroke-width: 2.5;
+    animation: drawPath 0.5s ease-out 0.55s forwards;
+  }
+
+  .hub-ring {
+    stroke-width: 1.8;
+    fill: transparent;
+    transition: fill 0.5s ease, stroke 0.6s ease, filter 0.5s ease;
+    animation: drawPath 0.25s ease-out 0.95s forwards;
+  }
+
+  .blade {
+    stroke-width: 3;
+  }
+
+  .b1 { animation: drawPath 0.35s ease-out 1.05s forwards; }
+  .b2 { animation: drawPath 0.35s ease-out 1.18s forwards; }
+  .b3 { animation: drawPath 0.35s ease-out 1.31s forwards; }
+
+  @keyframes drawPath {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* ─── Alive State — Blueprint → Energy ─── */
+  .alive .draw {
+    stroke: url(#energyGrad);
+    filter: drop-shadow(0 0 3px rgba(0, 212, 170, 0.35));
+  }
+
+  .alive .ground {
+    filter: none;
+    stroke: rgba(0, 212, 170, 0.35);
+  }
+
+  .alive .hub-ring {
+    fill: rgba(0, 212, 170, 0.1);
+  }
+
+  /* Blade rotation */
+  .blades {
+    transform-origin: 100px 95px;
+  }
+
+  .alive .blades {
+    animation: spin 3s linear infinite;
+  }
+
+  .fade-out .alive .blades {
+    animation-duration: 1s;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Hub glow dot */
+  .hub-dot {
+    fill: white;
+    opacity: 0;
+    transition: opacity 0.4s ease, fill 0.3s ease;
+  }
+
+  .alive .hub-dot {
+    opacity: 1;
+    fill: #00d4aa;
+    animation: hubGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes hubGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(0, 212, 170, 0.7)); }
+    50% { filter: drop-shadow(0 0 14px rgba(0, 212, 170, 1)); }
+  }
+
+  /* Energy pulse rings */
+  .pulse {
+    fill: none;
+    stroke: rgba(0, 212, 170, 0.5);
+    stroke-width: 1;
+    opacity: 0;
+    transform-origin: 100px 95px;
+  }
+
+  .alive .pulse {
+    animation: pulsate 2.4s ease-out infinite;
+  }
+
+  .alive .p2 { animation-delay: 0.8s; }
+  .alive .p3 { animation-delay: 1.6s; }
+
+  @keyframes pulsate {
+    0% { transform: scale(1); opacity: 0.6; stroke-width: 1.5; }
+    100% { transform: scale(6); opacity: 0; stroke-width: 0.2; }
+  }
+
+  /* ─── Brand Text ─── */
+  .brand {
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .brand.visible {
+    opacity: 1;
+  }
+
+  .brand-letters {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .char {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.12em;
+    opacity: 0;
+    transform: scale(0) translateY(8px);
+  }
+
+  .brand.visible .char {
+    animation: letterPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: calc(var(--i) * 0.07s);
+  }
+
+  @keyframes letterPop {
+    0% { opacity: 0; transform: scale(0) translateY(8px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .brand.visible .tagline {
+    animation: tagSlide 0.5s ease 0.45s forwards;
+  }
+
+  @keyframes tagSlide {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Skip Hint ─── */
+  .skip {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* ─── Exit Energy Flash ─── */
+  .flash {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 8vmax;
+    height: 8vmax;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(0, 212, 170, 0.5) 0%,
+      rgba(15, 157, 88, 0.15) 50%,
+      transparent 100%
+    );
+    animation: flashBurst 0.8s ease-out forwards;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  @keyframes flashBurst {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .turbine {
+      width: 170px;
+    }
+
+    .char {
+      font-size: 1.9rem;
+    }
+
+    .tagline {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .turbine {
+      width: 150px;
+    }
+
+    .char {
+      font-size: 1.6rem;
+    }
+
+    .tagline {
+      font-size: 0.65rem;
+    }
+  }
+</style>

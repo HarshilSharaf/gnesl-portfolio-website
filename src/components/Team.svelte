@@ -1,26 +1,21 @@
 <script>
   export let team;
   import Carousel from "svelte-carousel";
+  import { onMount } from "svelte";
 
   let carousel;
   let particlesToShow = 2;
 
-  // Update particles to show based on window size
-  import { onMount } from "svelte";
-
   onMount(() => {
     const updateParticles = () => {
       const width = window.innerWidth;
-
       if (width >= 1024) {
-        particlesToShow = 2; // Desktop
+        particlesToShow = 2;
       } else if (width >= 640) {
-        particlesToShow = 2; // Tablet
+        particlesToShow = 2;
       } else {
-        particlesToShow = 1; // Mobile
+        particlesToShow = 1;
       }
-
-      // Force carousel to update
       if (carousel) {
         carousel.goTo(0);
       }
@@ -28,25 +23,22 @@
 
     updateParticles();
     window.addEventListener("resize", updateParticles);
-
     return () => window.removeEventListener("resize", updateParticles);
   });
 
   const handlePrev = () => {
-    if (carousel) {
-      carousel.goToPrev();
-    }
+    if (carousel) carousel.goToPrev();
   };
 
   const handleNext = () => {
-    if (carousel) {
-      carousel.goToNext();
-    }
+    if (carousel) carousel.goToNext();
   };
 </script>
 
 <section class="team" id="team">
   <h2 class="section-title">Our Team</h2>
+  <span class="section-title-decoration"></span>
+  <p class="section-subtitle">Meet the experts driving our mission for a sustainable future.</p>
 
   <div class="carousel-wrapper">
     <Carousel
@@ -59,43 +51,35 @@
       dots={true}
       arrows={true}
     >
-      <!-- Custom Previous Button -->
       <button
         slot="prev"
         class="carousel-btn prev"
         on:click={handlePrev}
         aria-label="Previous"
       >
-        ❮
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
       </button>
 
-      <!-- Team Cards -->
       {#each team.members_info as member (member.name)}
         <div class="carousel-item">
           <div class="team-card">
             <div class="team-image">
               <img src={member.image} alt={member.name} />
             </div>
-
             <div class="team-content">
               <h3>{member.name}</h3>
               <span class="team-role">{member.role}</span>
               <p>{member.bio}</p>
-
               <div class="team-actions">
                 {#if member.linkedin}
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                  >
-                    🔗 LinkedIn
+                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    LinkedIn
                   </a>
                 {/if}
-
                 {#if member.email}
-                  <a href={member.email} aria-label="Email">✉️ Email</a>
+                  <a href={member.email} aria-label="Email">Email</a>
                 {/if}
               </div>
             </div>
@@ -103,32 +87,21 @@
         </div>
       {/each}
 
-      <!-- Custom Next Button -->
       <button
         slot="next"
         class="carousel-btn next"
         on:click={handleNext}
         aria-label="Next"
       >
-        ❯
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
       </button>
     </Carousel>
   </div>
 </section>
 
 <style>
-  .team {
-    padding: 5rem 2rem;
-    background: #f8f9fa;
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--primary-color, #333);
-  }
-
   .carousel-wrapper {
     max-width: 1100px;
     margin: 0 auto;
@@ -136,27 +109,31 @@
     padding: 0 60px;
   }
 
-  /* Carousel Item Wrapper */
   .carousel-item {
-    padding: 1rem 1rem;
+    padding: 1rem;
     box-sizing: border-box;
   }
 
-  /* Team Card */
   .team-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: var(--surface, white);
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg, 24px);
+    border: 1px solid var(--surface-muted, #f1f5f9);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     width: 100%;
     height: 100%;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 0 30px rgba(15, 157, 88, 0.15);
+    border-color: #34c38f;
   }
 
   .team-image img {
@@ -165,33 +142,44 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 1.5rem;
+    outline: 3px solid #34c38f;
+    outline-offset: 3px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .team-card:hover .team-image img {
+    transform: scale(1.05);
   }
 
   .team-content h3 {
     margin: 0;
     font-size: 1.4rem;
-    color: var(--primary-color, #007bff);
+    font-weight: 700;
+    color: var(--text-primary, #1a1a2e);
   }
 
   .team-role {
-    display: block;
+    display: inline-block;
     margin: 0.5rem 0 1rem;
     font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--secondary-color, #6c757d);
+    font-size: 0.85rem;
+    color: #0f9d58;
+    background: rgba(15, 157, 88, 0.08);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
   }
 
   .team-content p {
-    color: #555;
-    line-height: 1.6;
-    margin: 1rem 0;
+    color: var(--text-secondary, #64748b);
+    line-height: 1.7;
+    margin: 0.5rem 0;
     font-size: 0.95rem;
   }
 
   .team-actions {
     margin-top: 1.5rem;
     display: flex;
-    gap: 1.5rem;
+    gap: 0.75rem;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -199,48 +187,57 @@
   .team-actions a {
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--primary-color, #007bff);
-    transition: color 0.3s;
+    font-size: 0.85rem;
+    color: #0f9d58;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(15, 157, 88, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .team-actions a:hover {
-    color: var(--accent-color, #0056b3);
+    background: #0f9d58;
+    color: white;
+    border-color: #0f9d58;
   }
 
-  /* Custom Navigation Buttons */
+  /* Navigation Buttons */
   .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    width: 45px;
-    height: 45px;
+    background: white;
+    color: #1a1a2e;
+    border: 1px solid #f1f5f9;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   .carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: #0f9d58;
+    color: white;
+    border-color: #0f9d58;
+    box-shadow: 0 0 30px rgba(15, 157, 88, 0.25);
   }
 
   .carousel-btn.prev {
-    left: -30px;
+    left: -5px;
   }
 
   .carousel-btn.next {
-    right: -30px;
+    right: -5px;
   }
 
-  /* Override default svelte-carousel styles */
+  /* Override svelte-carousel */
   :global(.sc-carousel__carousel-container) {
     padding: 1rem 0;
   }
@@ -267,9 +264,9 @@
   }
 
   :global(.sc-carousel-dot__dot) {
-    background: #ccc !important;
-    width: 12px !important;
-    height: 12px !important;
+    background: #e2e8f0 !important;
+    width: 10px !important;
+    height: 10px !important;
     border-radius: 50% !important;
     border: none !important;
     padding: 0 !important;
@@ -278,54 +275,23 @@
   }
 
   :global(.sc-carousel-dot__dot.sc-carousel-dot__dot_active) {
-    background: var(--primary-color, #007bff) !important;
-    width: 30px !important;
-    border-radius: 6px !important;
+    background: #0f9d58 !important;
+    width: 28px !important;
+    border-radius: 5px !important;
   }
 
-  /* Hide default arrows */
   :global(.sc-carousel__arrow) {
     display: none !important;
   }
 
-  /* ================= TABLET / iPAD ================= */
   @media (max-width: 1023px) {
     .carousel-wrapper {
       max-width: 800px;
       padding: 0 55px;
     }
-
-    .team-card {
-      padding: 1.8rem;
-    }
-
-    .team-image img {
-      width: 110px;
-      height: 110px;
-    }
-
-    .team-content h3 {
-      font-size: 1.3rem;
-    }
-
-    .carousel-btn {
-      width: 40px;
-      height: 40px;
-      font-size: 1.3rem;
-    }
   }
 
-  /* ================= MOBILE ================= */
   @media (max-width: 639px) {
-    .team {
-      padding: 4rem 1.5rem;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-
     .carousel-wrapper {
       max-width: 400px;
       padding: 0 50px;
@@ -344,30 +310,20 @@
       height: 100px;
     }
 
-    .team-content h3 {
-      font-size: 1.3rem;
-    }
-
-    .team-content p {
-      font-size: 0.9rem;
-    }
-
     .carousel-btn {
-      width: 35px;
-      height: 35px;
-      font-size: 1.2rem;
+      width: 36px;
+      height: 36px;
     }
 
     .carousel-btn.prev {
-      left: -25px;
+      left: -5px;
     }
 
     .carousel-btn.next {
-      right: -25px;
+      right: -5px;
     }
   }
 
-  /* ================= SMALL MOBILE ================= */
   @media (max-width: 399px) {
     .carousel-wrapper {
       max-width: 340px;
@@ -381,7 +337,6 @@
     .carousel-btn {
       width: 32px;
       height: 32px;
-      font-size: 1.1rem;
     }
   }
 </style>
