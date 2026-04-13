@@ -1,4 +1,6 @@
-// Smooth scrolling for navigation links
+// ================================
+// Scroll Reveal Animation System
+// ================================
 document.addEventListener("DOMContentLoaded", function () {
   // Smooth scroll for anchor links
   const navLinks = document.querySelectorAll('a[href^="#"]');
@@ -6,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
       e.preventDefault();
-
       const targetId = this.getAttribute("href");
       const targetSection = document.querySelector(targetId);
 
@@ -24,88 +25,114 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Animate stats on scroll
-  const observerOptions = {
-    threshold: 0.5,
-    rootMargin: "0px 0px -100px 0px",
-  };
+  // ================================
+  // Intersection Observer for reveal animations
+  // ================================
+  const revealObserver = new IntersectionObserver(
+    function (entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          // Don't unobserve — keep it revealed
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: "0px 0px -60px 0px",
+    }
+  );
 
-  const statsObserver = new IntersectionObserver(function (entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        animateStats();
-        statsObserver.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
+  // Observe all reveal elements
+  const revealElements = document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-scale"
+  );
+  revealElements.forEach((el) => revealObserver.observe(el));
+
+  // ================================
+  // Stats counter animation
+  // ================================
+  const statsObserver = new IntersectionObserver(
+    function (entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateStats();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
 
   const statsSection = document.querySelector(".stats");
   if (statsSection) {
     statsObserver.observe(statsSection);
   }
 
-  // Animate service cards on scroll
-  const cardObserver = new IntersectionObserver(function (entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-      }
-    });
-  }, observerOptions);
+  // ================================
+  // Active navigation on scroll
+  // ================================
+  const sections = document.querySelectorAll("section[id]");
 
-  const serviceCards = document.querySelectorAll(".service-card");
-  serviceCards.forEach((card, index) => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
-    card.style.transition = `all 0.6s ease ${index * 0.1}s`;
-    cardObserver.observe(card);
-  });
+  window.addEventListener(
+    "scroll",
+    function () {
+      const scrollY = window.pageYOffset;
 
-  // Animate project cards on scroll
-  const projectCards = document.querySelectorAll(".project-card");
-  projectCards.forEach((card, index) => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
-    card.style.transition = `all 0.6s ease ${index * 0.1}s`;
-    cardObserver.observe(card);
-  });
+      sections.forEach((section) => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute("id");
+        const correspondingLink = document.querySelector(
+          `nav a[href="#${sectionId}"]`
+        );
 
-  // Animate timeline items on scroll
-  const timelineItems = document.querySelectorAll(".timeline-item");
-  timelineItems.forEach((item, index) => {
-    item.style.opacity = "0";
-    item.style.transform = "translateX(-30px)";
-    item.style.transition = `all 0.6s ease ${index * 0.1}s`;
-    cardObserver.observe(item);
-  });
-
-  // Add active state to navigation on scroll
-  window.addEventListener("scroll", function () {
-    const sections = document.querySelectorAll("section[id]");
-    const scrollY = window.pageYOffset;
-
-    sections.forEach((section) => {
-      const sectionHeight = section.offsetHeight;
-      const sectionTop = section.offsetTop - 100;
-      const sectionId = section.getAttribute("id");
-      const correspondingLink = document.querySelector(
-        `nav a[href="#${sectionId}"]`
-      );
-
-      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
         if (correspondingLink) {
-          document.querySelectorAll("nav a").forEach((link) => {
-            link.style.color = "white";
-          });
-          correspondingLink.style.color = "black";
+          if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            document.querySelectorAll("nav a").forEach((link) => {
+              link.classList.remove("active");
+            });
+            correspondingLink.classList.add("active");
+          }
         }
-      }
+      });
+    },
+    { passive: true }
+  );
+
+  // ================================
+  // MutationObserver for dynamically added elements
+  // ================================
+  const mutationObserver = new MutationObserver(function (mutations) {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) {
+          const reveals = node.querySelectorAll
+            ? node.querySelectorAll(".reveal, .reveal-left, .reveal-scale")
+            : [];
+          reveals.forEach((el) => revealObserver.observe(el));
+          if (
+            node.classList &&
+            (node.classList.contains("reveal") ||
+              node.classList.contains("reveal-left") ||
+              node.classList.contains("reveal-scale"))
+          ) {
+            revealObserver.observe(node);
+          }
+        }
+      });
     });
+  });
+
+  mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
   });
 });
 
+// ================================
 // Animate statistics numbers
+// ================================
 function animateStats() {
   const statNumbers = document.querySelectorAll(".stat-number");
 
@@ -117,9 +144,10 @@ function animateStats() {
 
     let targetNumber = parseInt(text.replace(/\D/g, ""));
     let currentNumber = 0;
-    const increment = targetNumber / 50;
-    const duration = 1500;
-    const stepTime = duration / 50;
+    const duration = 2000;
+    const steps = 60;
+    const increment = targetNumber / steps;
+    const stepTime = duration / steps;
 
     const timer = setInterval(() => {
       currentNumber += increment;
@@ -138,15 +166,3 @@ function animateStats() {
     }, stepTime);
   });
 }
-
-// Add hover effect enhancement for CTA buttons
-const ctaButtons = document.querySelectorAll(".cta-button");
-ctaButtons.forEach((button) => {
-  button.addEventListener("mouseenter", function () {
-    this.style.transform = "translateY(-2px) scale(1.05)";
-  });
-
-  button.addEventListener("mouseleave", function () {
-    this.style.transform = "translateY(0) scale(1)";
-  });
-});
