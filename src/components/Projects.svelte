@@ -1,10 +1,10 @@
 <script>
-  export let projects;
   import { tilt } from "../lib/tilt-action.js";
+
+  let { projects } = $props();
 </script>
 
 <section class="projects" id="projects">
-  <!-- Watermark -->
   <span class="section-watermark">03</span>
 
   <!-- Floating shapes -->
@@ -19,9 +19,11 @@
     and scales.
   </p>
   <div class="projects-grid">
-    {#each projects.items as project}
+    {#each projects.items as project, i}
       <div class="project-card" use:tilt={{ max: 4, glare: true, "max-glare": 0.06 }}>
-        <div class="project-image">{project.icon}</div>
+        <div class="project-image">
+          {project.icon}
+        </div>
         <div class="project-content">
           <h3>{project.title}</h3>
           <p>{project.description}</p>

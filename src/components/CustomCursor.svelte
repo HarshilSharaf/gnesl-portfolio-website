@@ -1,28 +1,25 @@
 <script>
   import { onMount } from "svelte";
 
-  let dotEl;
-  let ringEl;
-  let active = false;
-  let hovering = false;
+  let dotEl = $state(null);
+  let ringEl = $state(null);
+  let active = $state(false);
+  let hovering = $state(false);
+
   let mouseX = -100;
   let mouseY = -100;
   let ringX = -100;
   let ringY = -100;
 
   onMount(() => {
-    // Only on devices with a mouse
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       return;
     }
 
     active = true;
 
-    // Hide default cursor globally
     const style = document.createElement("style");
-    style.textContent = `
-      *, *::before, *::after { cursor: none !important; }
-    `;
+    style.textContent = "*, *::before, *::after { cursor: none !important; }";
     document.head.appendChild(style);
 
     const onMouseMove = (e) => {
@@ -33,15 +30,13 @@
       }
     };
 
-    // Detect hover on interactive elements
+    const INTERACTIVE_SELECTOR =
+      "a, button, .cta-button, .service-card, .project-card, .contact-item, .carousel-btn";
+
     const onMouseOver = (e) => {
-      const el = e.target.closest(
-        "a, button, .cta-button, .service-card, .project-card, .contact-item, .carousel-btn"
-      );
-      hovering = !!el;
+      hovering = !!e.target.closest(INTERACTIVE_SELECTOR);
     };
 
-    // Ring follows with lerp
     let frameId;
     const animate = () => {
       ringX += (mouseX - ringX) * 0.12;

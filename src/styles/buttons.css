@@ -1,0 +1,55 @@
+/* ================================
+   CTA Buttons (shared across Hero & Contact)
+   ================================ */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 1.05rem;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base);
+  animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.cta-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(15, 157, 88, 0.4);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
+}
+
+.cta-button:active {
+  transform: translateY(-1px);
+}
+
+.cta-button.btn-white {
+  background: white;
+  color: var(--dark);
+}
+
+.cta-button.btn-white:hover {
+  background: white;
+  color: var(--dark);
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.25);
+}

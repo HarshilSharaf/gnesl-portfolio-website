@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
 
-  let visible = false;
+  let visible = $state(false);
 
   onMount(() => {
     const onScroll = () => {
@@ -12,15 +12,21 @@
     return () => window.removeEventListener("scroll", onScroll);
   });
 
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  async function scrollToTop() {
+    const { getLenis } = await import("../lib/smooth-scroll.js");
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 </script>
 
 {#if visible}
   <button
     class="back-to-top"
-    on:click={scrollToTop}
+    onclick={scrollToTop}
     aria-label="Back to top"
     transition:fly={{ y: 20, duration: 300 }}
   >

@@ -1,6 +1,5 @@
 <script>
-  export let fill = "var(--surface, #ffffff)";
-  export let flip = false;
+  let { fill = "var(--surface, #ffffff)", flip = false } = $props();
 </script>
 
 <div class="wave" class:flip>

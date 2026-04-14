@@ -1,0 +1,125 @@
+/* ================================
+   Process / Timeline Section
+   ================================ */
+.process {
+  padding: 6rem 2rem;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.process-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.process-timeline::before {
+  content: "";
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(15, 157, 88, 0.08);
+  border-radius: var(--radius-full);
+}
+
+.timeline-progress-fill {
+  position: absolute;
+  left: 30px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  border-radius: var(--radius-full);
+  transform-origin: top;
+  transform: scaleY(0);
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 212, 170, 0.3);
+}
+
+.timeline-item {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-number {
+  min-width: 60px;
+  height: 60px;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 0 6px var(--surface), var(--shadow-glow);
+  transition: transform var(--transition-spring),
+    box-shadow var(--transition-base);
+}
+
+.timeline-item:hover .timeline-number {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 6px var(--surface), var(--shadow-glow-strong);
+}
+
+.timeline-content {
+  flex: 1;
+  background: var(--surface-muted);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
+}
+
+.timeline-item:hover .timeline-content {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-glow);
+  transform: translateX(4px);
+}
+
+.timeline-content h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.timeline-content p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* ================================
+   Process Responsive
+   ================================ */
+@media (max-width: 768px) {
+  .timeline-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timeline-number {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+
+  .process-timeline::before {
+    display: none;
+  }
+
+  .timeline-progress-fill {
+    display: none;
+  }
+}

@@ -1,14 +1,17 @@
 <script>
   import { onMount } from "svelte";
 
-  let canvas;
+  const CONNECTION_DIST = 130;
+  const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST;
+  const MOUSE_DIST = 160;
+  const MOUSE_DIST_SQ = MOUSE_DIST * MOUSE_DIST;
+
+  let canvas = $state(null);
   let ctx;
   let particles = [];
-  let mouse = { x: null, y: null };
+  let mouseX = null;
+  let mouseY = null;
   let animId;
-  let particleCount;
-  const CONNECTION_DIST = 130;
-  const MOUSE_DIST = 160;
 
   class Particle {
     constructor(w, h) {
@@ -21,12 +24,12 @@
     }
 
     update(w, h) {
-      // Mouse repulsion
-      if (mouse.x !== null) {
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_DIST) {
+      if (mouseX !== null) {
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < MOUSE_DIST_SQ) {
+          const dist = Math.sqrt(distSq);
           const force = (MOUSE_DIST - dist) / MOUSE_DIST;
           this.vx -= (dx / dist) * force * 0.25;
           this.vy -= (dy / dist) * force * 0.25;
@@ -36,13 +39,11 @@
       this.x += this.vx;
       this.y += this.vy;
 
-      // Wrap around edges
       if (this.x < -10) this.x = w + 10;
       if (this.x > w + 10) this.x = -10;
       if (this.y < -10) this.y = h + 10;
       if (this.y > h + 10) this.y = -10;
 
-      // Damping + subtle drift
       this.vx *= 0.997;
       this.vy *= 0.997;
       this.vx += (Math.random() - 0.5) * 0.008;
@@ -58,17 +59,19 @@
   }
 
   function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+    for (let i = 0, len = particles.length; i < len; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < len; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const distSq = dx * dx + dy * dy;
 
-        if (dist < CONNECTION_DIST) {
-          const opacity = (1 - dist / CONNECTION_DIST) * 0.12;
+        if (distSq < CONNECTION_DIST_SQ) {
+          const opacity = (1 - Math.sqrt(distSq) / CONNECTION_DIST) * 0.12;
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
           ctx.strokeStyle = `rgba(0, 212, 170, ${opacity})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
@@ -76,31 +79,33 @@
       }
     }
 
-    // Draw lines to mouse
-    if (mouse.x !== null) {
-      particles.forEach((p) => {
-        const dx = mouse.x - p.x;
-        const dy = mouse.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_DIST) {
-          const opacity = (1 - dist / MOUSE_DIST) * 0.2;
+    if (mouseX !== null) {
+      for (let i = 0, len = particles.length; i < len; i++) {
+        const p = particles[i];
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < MOUSE_DIST_SQ) {
+          const opacity = (1 - Math.sqrt(distSq) / MOUSE_DIST) * 0.2;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouse.x, mouse.y);
+          ctx.lineTo(mouseX, mouseY);
           ctx.strokeStyle = `rgba(0, 212, 170, ${opacity})`;
           ctx.lineWidth = 0.4;
           ctx.stroke();
         }
-      });
+      }
     }
   }
 
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach((p) => {
-      p.update(canvas.width, canvas.height);
-      p.draw(ctx);
-    });
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0, len = particles.length; i < len; i++) {
+      particles[i].update(w, h);
+      particles[i].draw(ctx);
+    }
     drawConnections();
     animId = requestAnimationFrame(animate);
   }
@@ -115,24 +120,23 @@
     ctx = canvas.getContext("2d");
     resize();
 
-    particleCount = window.innerWidth > 768 ? 70 : 35;
+    const particleCount = window.innerWidth > 768 ? 70 : 35;
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle(canvas.width, canvas.height));
     }
 
     animate();
 
-    // Track mouse via window (canvas has pointer-events: none)
     const handleMouse = (e) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        mouse.x = x;
-        mouse.y = y;
+        mouseX = x;
+        mouseY = y;
       } else {
-        mouse.x = null;
-        mouse.y = null;
+        mouseX = null;
+        mouseY = null;
       }
     };
 

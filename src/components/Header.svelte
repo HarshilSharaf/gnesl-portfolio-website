@@ -1,10 +1,11 @@
 <script>
-  export let header;
   import logo from "../assets/images/logo.png";
   import { onMount } from "svelte";
 
-  let menuOpen = false;
-  let scrolled = false;
+  let { header } = $props();
+
+  let menuOpen = $state(false);
+  let scrolled = $state(false);
 
   function toggleMenu() {
     menuOpen = !menuOpen;
@@ -25,7 +26,7 @@
 
 <header class:scrolled>
   <nav class="navbar">
-    <a href="#hero" class="logo" on:click={closeMenu}>
+    <a href="#hero" class="logo" onclick={closeMenu}>
       <img src={logo} alt={header.title} class="logo-image" />
     </a>
 
@@ -33,7 +34,7 @@
       class="hamburger"
       aria-label="Toggle navigation"
       aria-expanded={menuOpen}
-      on:click={toggleMenu}
+      onclick={toggleMenu}
     >
       <span class:open={menuOpen}></span>
       <span class:open={menuOpen}></span>
@@ -43,7 +44,7 @@
     <ul class:open={menuOpen}>
       {#each header.nav as item}
         <li>
-          <a href={`#${item.id}`} on:click={closeMenu}>
+          <a href={`#${item.id}`} onclick={closeMenu}>
             {item.label}
           </a>
         </li>

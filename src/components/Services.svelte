@@ -1,10 +1,10 @@
 <script>
-  export let services;
   import { tilt } from "../lib/tilt-action.js";
+
+  let { services } = $props();
 </script>
 
 <section class="services" id="services">
-  <!-- Watermark -->
   <span class="section-watermark">01</span>
 
   <!-- Floating shapes -->

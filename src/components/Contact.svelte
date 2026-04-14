@@ -1,9 +1,9 @@
 <script>
-  export let contact;
+  let { contact } = $props();
 </script>
 
 <section class="contact" id="contact">
-  <!-- Aurora orbs for contact -->
+  <!-- Aurora orbs -->
   <div class="aurora-orb" style="width: 450px; height: 450px; top: -20%; right: -10%; background: radial-gradient(circle, rgba(0, 212, 170, 0.2) 0%, transparent 70%); animation: auroraFloat1 16s ease-in-out infinite;"></div>
   <div class="aurora-orb" style="width: 350px; height: 350px; bottom: -15%; left: -5%; background: radial-gradient(circle, rgba(15, 157, 88, 0.18) 0%, transparent 70%); animation: auroraFloat2 20s ease-in-out infinite;"></div>
 

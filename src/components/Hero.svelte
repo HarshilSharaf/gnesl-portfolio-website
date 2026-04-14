@@ -1,7 +1,8 @@
 <script>
-  export let hero;
   import TypingText from "./TypingEffect.svelte";
   import ParticleCanvas from "./ParticleCanvas.svelte";
+
+  let { hero } = $props();
 </script>
 
 <section class="hero" id="hero">

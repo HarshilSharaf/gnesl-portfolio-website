@@ -1,0 +1,99 @@
+/* ================================
+   Stats Section
+   ================================ */
+.stats {
+  background: var(--surface);
+  padding: 5rem 2rem;
+  position: relative;
+}
+
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.stat-item {
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--surface-muted);
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.stat-accent {
+  width: 40px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  margin: 0 auto 1.5rem;
+  transform-origin: center;
+}
+
+.stat-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-glow);
+  border-color: var(--primary-light);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 157, 88, 0.03) 0%,
+    rgba(0, 212, 170, 0.02) 100%
+  );
+}
+
+.stat-number {
+  font-size: 3.2rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ================================
+   Stats Responsive
+   ================================ */
+@media (max-width: 1024px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-number {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-item {
+    padding: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 2.2rem;
+  }
+}

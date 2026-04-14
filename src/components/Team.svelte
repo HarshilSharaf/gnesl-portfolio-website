@@ -1,38 +1,30 @@
 <script>
-  export let team;
   import Carousel from "svelte-carousel";
   import { onMount } from "svelte";
 
-  let carousel;
-  let particlesToShow = 2;
+  let { team } = $props();
+
+  let carousel = $state(null);
+  let itemsToShow = $state(2);
 
   onMount(() => {
-    const updateParticles = () => {
-      const width = window.innerWidth;
-      if (width >= 1024) {
-        particlesToShow = 2;
-      } else if (width >= 640) {
-        particlesToShow = 2;
-      } else {
-        particlesToShow = 1;
-      }
-      if (carousel) {
-        carousel.goTo(0);
-      }
+    const updateLayout = () => {
+      itemsToShow = window.innerWidth < 640 ? 1 : 2;
+      if (carousel) carousel.goTo(0);
     };
 
-    updateParticles();
-    window.addEventListener("resize", updateParticles);
-    return () => window.removeEventListener("resize", updateParticles);
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+    return () => window.removeEventListener("resize", updateLayout);
   });
 
-  const handlePrev = () => {
+  function handlePrev() {
     if (carousel) carousel.goToPrev();
-  };
+  }
 
-  const handleNext = () => {
+  function handleNext() {
     if (carousel) carousel.goToNext();
-  };
+  }
 </script>
 
 <section class="team" id="team">
@@ -43,7 +35,7 @@
   <div class="carousel-wrapper">
     <Carousel
       bind:this={carousel}
-      {particlesToShow}
+      particlesToShow={itemsToShow}
       particlesToScroll={1}
       infinite={true}
       autoplay={true}
@@ -54,7 +46,7 @@
       <button
         slot="prev"
         class="carousel-btn prev"
-        on:click={handlePrev}
+        onclick={handlePrev}
         aria-label="Previous"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -90,7 +82,7 @@
       <button
         slot="next"
         class="carousel-btn next"
-        on:click={handleNext}
+        onclick={handleNext}
         aria-label="Next"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -102,6 +94,12 @@
 </section>
 
 <style>
+  /* --- Section Layout --- */
+  .team {
+    padding: 6rem 2rem;
+    background: var(--surface, #ffffff);
+  }
+
   .carousel-wrapper {
     max-width: 1100px;
     margin: 0 auto;
@@ -114,6 +112,7 @@
     box-sizing: border-box;
   }
 
+  /* --- Team Cards --- */
   .team-card {
     background: var(--surface, white);
     padding: 2.5rem 2rem;
@@ -201,7 +200,7 @@
     border-color: #0f9d58;
   }
 
-  /* Navigation Buttons */
+  /* --- Carousel Navigation --- */
   .carousel-btn {
     position: absolute;
     top: 50%;
@@ -229,32 +228,14 @@
     box-shadow: 0 0 30px rgba(15, 157, 88, 0.25);
   }
 
-  .carousel-btn.prev {
-    left: -5px;
-  }
+  .carousel-btn.prev { left: -5px; }
+  .carousel-btn.next { right: -5px; }
 
-  .carousel-btn.next {
-    right: -5px;
-  }
-
-  /* Override svelte-carousel */
-  :global(.sc-carousel__carousel-container) {
-    padding: 1rem 0;
-  }
-
-  :global(.sc-carousel__content-container) {
-    width: 100%;
-  }
-
-  :global(.sc-carousel__pages) {
-    display: flex;
-    align-items: stretch;
-  }
-
-  :global(.sc-carousel-page__container) {
-    display: flex !important;
-    gap: 0 !important;
-  }
+  /* --- svelte-carousel overrides --- */
+  :global(.sc-carousel__carousel-container) { padding: 1rem 0; }
+  :global(.sc-carousel__content-container) { width: 100%; }
+  :global(.sc-carousel__pages) { display: flex; align-items: stretch; }
+  :global(.sc-carousel-page__container) { display: flex !important; gap: 0 !important; }
 
   :global(.sc-carousel__dots) {
     margin-top: 2rem !important;
@@ -280,63 +261,26 @@
     border-radius: 5px !important;
   }
 
-  :global(.sc-carousel__arrow) {
-    display: none !important;
-  }
+  :global(.sc-carousel__arrow) { display: none !important; }
 
+  /* --- Responsive --- */
   @media (max-width: 1023px) {
-    .carousel-wrapper {
-      max-width: 800px;
-      padding: 0 55px;
-    }
+    .carousel-wrapper { max-width: 800px; padding: 0 55px; }
   }
 
   @media (max-width: 639px) {
-    .carousel-wrapper {
-      max-width: 400px;
-      padding: 0 50px;
-    }
-
-    .carousel-item {
-      padding: 0 0.5rem;
-    }
-
-    .team-card {
-      padding: 2rem 1.5rem;
-    }
-
-    .team-image img {
-      width: 100px;
-      height: 100px;
-    }
-
-    .carousel-btn {
-      width: 36px;
-      height: 36px;
-    }
-
-    .carousel-btn.prev {
-      left: -5px;
-    }
-
-    .carousel-btn.next {
-      right: -5px;
-    }
+    .carousel-wrapper { max-width: 400px; padding: 0 50px; }
+    .carousel-item { padding: 0 0.5rem; }
+    .team-card { padding: 2rem 1.5rem; }
+    .team-image img { width: 100px; height: 100px; }
+    .carousel-btn { width: 36px; height: 36px; }
+    .carousel-btn.prev { left: -5px; }
+    .carousel-btn.next { right: -5px; }
   }
 
   @media (max-width: 399px) {
-    .carousel-wrapper {
-      max-width: 340px;
-      padding: 0 40px;
-    }
-
-    .team-card {
-      padding: 1.5rem 1rem;
-    }
-
-    .carousel-btn {
-      width: 32px;
-      height: 32px;
-    }
+    .carousel-wrapper { max-width: 340px; padding: 0 40px; }
+    .team-card { padding: 1.5rem 1rem; }
+    .carousel-btn { width: 32px; height: 32px; }
   }
 </style>

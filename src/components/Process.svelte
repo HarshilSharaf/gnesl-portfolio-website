@@ -1,9 +1,8 @@
 <script>
-  export let process;
+  let { process } = $props();
 </script>
 
 <section class="process" id="process">
-  <!-- Watermark -->
   <span class="section-watermark">02</span>
 
   <!-- Floating shapes -->
@@ -18,6 +17,7 @@
     production.
   </p>
   <div class="process-timeline">
+    <div class="timeline-progress-fill"></div>
     {#each process.steps as step, index}
       <div class="timeline-item">
         <div class="timeline-number">{index + 1}</div>

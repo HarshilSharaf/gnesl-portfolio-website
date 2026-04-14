@@ -1,0 +1,116 @@
+/* ================================
+   Projects Section
+   ================================ */
+.projects {
+  background: var(--surface-muted);
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--primary-light);
+}
+
+.project-image {
+  height: 220px;
+  background: var(--gradient-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.project-card:hover .project-image::before {
+  opacity: 0.15;
+}
+
+.project-content {
+  padding: 2rem;
+}
+
+.project-content h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.project-content p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.project-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--surface-muted);
+}
+
+.project-stat {
+  flex: 1;
+}
+
+.project-stat-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.project-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* ================================
+   Projects Responsive
+   ================================ */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    margin: 0;
+  }
+}

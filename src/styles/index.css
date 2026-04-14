@@ -1,0 +1,32 @@
+/*
+ * GNESL Portfolio — CSS Entry Point
+ *
+ * Organized by concern for easy debugging:
+ *   variables  → Design tokens (colors, spacing, transitions)
+ *   base       → Reset, body, noise overlay, tilt fixes
+ *   typography → Section titles, text reveals, typing cursor
+ *   decorations→ Aurora orbs, watermarks, floating shapes
+ *   buttons    → CTA button variants
+ *   header     → Navigation bar & hamburger menu
+ *   hero       → Hero section, particles, scroll indicator
+ *   stats      → Stats counter grid
+ *   services   → Service cards with animated borders
+ *   process    → Timeline with progress fill
+ *   projects   → Project cards with parallax images
+ *   contact    → Contact section with glass cards
+ *   footer     → Footer links & branding
+ */
+
+@import "./variables.css";
+@import "./base.css";
+@import "./typography.css";
+@import "./decorations.css";
+@import "./buttons.css";
+@import "./header.css";
+@import "./hero.css";
+@import "./stats.css";
+@import "./services.css";
+@import "./process.css";
+@import "./projects.css";
+@import "./contact.css";
+@import "./footer.css";

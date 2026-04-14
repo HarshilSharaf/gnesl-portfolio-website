@@ -1,12 +1,12 @@
 <script>
   import { onMount } from "svelte";
 
-  export let onLoadingComplete = () => {};
+  let { onLoadingComplete = () => {} } = $props();
 
-  let visible = true;
-  let fadeOut = false;
-  let alive = false;
-  let showText = false;
+  let visible = $state(true);
+  let fadeOut = $state(false);
+  let alive = $state(false);
+  let showText = $state(false);
   let timers = [];
 
   const letters = "GNESL".split("");
@@ -20,7 +20,10 @@
       setTimeout(() => dismiss(), 3500),
     ];
 
-    return () => timers.forEach(clearTimeout);
+    return () => {
+      timers.forEach(clearTimeout);
+      document.body.style.overflow = "";
+    };
   });
 
   function dismiss() {
@@ -29,7 +32,7 @@
     timers.forEach(clearTimeout);
     setTimeout(() => {
       visible = false;
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
       onLoadingComplete();
     }, 900);
   }
@@ -38,7 +41,7 @@
 {#if visible}
   <!-- svelte-ignore a11y_click_events_have_key_events -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
-  <div class="loader" class:fade-out={fadeOut} on:click={dismiss}>
+  <div class="loader" class:fade-out={fadeOut} onclick={dismiss}>
     <!-- Background -->
     <div class="bg">
       <div class="bg-grid"></div>
@@ -55,7 +58,6 @@
 
     <!-- Centered content -->
     <div class="center">
-      <!-- Self-drawing turbine -->
       <div class="turbine" class:alive>
         <svg viewBox="0 0 200 250" class="turbine-svg">
           <defs>
@@ -65,45 +67,36 @@
             </linearGradient>
           </defs>
 
-          <!-- Ground silhouette -->
           <path
             d="M 10,220 C 40,216 70,223 100,218 C 130,213 160,221 190,217"
             class="draw ground"
             pathLength="1"
           />
-
-          <!-- Tower -->
           <line
             x1="100" y1="218" x2="100" y2="100"
             class="draw tower"
             pathLength="1"
           />
-
-          <!-- Hub ring -->
           <circle
             cx="100" cy="95" r="6"
             class="draw hub-ring"
             pathLength="1"
           />
 
-          <!-- Blade group (rotates when alive) -->
           <g class="blades">
             <path d="M 100,95 C 99,72 99,48 100,25" class="draw blade b1" pathLength="1" />
             <path d="M 100,95 C 118,108 140,120 161,130" class="draw blade b2" pathLength="1" />
             <path d="M 100,95 C 82,108 60,120 39,130" class="draw blade b3" pathLength="1" />
           </g>
 
-          <!-- Energy pulse rings (alive only) -->
           <circle cx="100" cy="95" r="10" class="pulse p1" />
           <circle cx="100" cy="95" r="10" class="pulse p2" />
           <circle cx="100" cy="95" r="10" class="pulse p3" />
 
-          <!-- Hub center glow -->
           <circle cx="100" cy="95" r="3.5" class="hub-dot" />
         </svg>
       </div>
 
-      <!-- Brand text -->
       <div class="brand" class:visible={showText}>
         <div class="brand-letters">
           {#each letters as char, i}
@@ -114,10 +107,8 @@
       </div>
     </div>
 
-    <!-- Skip hint -->
     <span class="skip">Click anywhere to skip</span>
 
-    <!-- Exit energy flash -->
     {#if fadeOut}
       <div class="flash"></div>
     {/if}
@@ -125,7 +116,7 @@
 {/if}
 
 <style>
-  /* ─── Loader Shell ─── */
+  /* --- Loader Shell --- */
   .loader {
     position: fixed;
     inset: 0;
@@ -154,7 +145,7 @@
     100% { opacity: 0; transform: scale(1.06); }
   }
 
-  /* ─── Background ─── */
+  /* --- Background --- */
   .bg {
     position: absolute;
     inset: 0;
@@ -238,7 +229,7 @@
     100% { transform: translateY(-105vh) scale(0.4); opacity: 0; }
   }
 
-  /* ─── Content Layout ─── */
+  /* --- Content Layout --- */
   .center {
     position: relative;
     z-index: 2;
@@ -248,7 +239,7 @@
     gap: 2.5rem;
   }
 
-  /* ─── Turbine SVG ─── */
+  /* --- Turbine SVG --- */
   .turbine {
     width: 220px;
     position: relative;
@@ -259,7 +250,6 @@
     display: block;
   }
 
-  /* Self-drawing foundation */
   .draw {
     fill: none;
     stroke: rgba(255, 255, 255, 0.75);
@@ -270,7 +260,6 @@
     transition: stroke 0.6s ease, filter 0.5s ease;
   }
 
-  /* Drawing timeline */
   .ground {
     stroke-width: 1.2;
     animation: drawPath 0.5s ease-out 0.3s forwards;
@@ -288,10 +277,7 @@
     animation: drawPath 0.25s ease-out 0.95s forwards;
   }
 
-  .blade {
-    stroke-width: 3;
-  }
-
+  .blade { stroke-width: 3; }
   .b1 { animation: drawPath 0.35s ease-out 1.05s forwards; }
   .b2 { animation: drawPath 0.35s ease-out 1.18s forwards; }
   .b3 { animation: drawPath 0.35s ease-out 1.31s forwards; }
@@ -300,7 +286,7 @@
     to { stroke-dashoffset: 0; }
   }
 
-  /* ─── Alive State — Blueprint → Energy ─── */
+  /* --- Alive State --- */
   .alive .draw {
     stroke: url(#energyGrad);
     filter: drop-shadow(0 0 3px rgba(0, 212, 170, 0.35));
@@ -315,7 +301,6 @@
     fill: rgba(0, 212, 170, 0.1);
   }
 
-  /* Blade rotation */
   .blades {
     transform-origin: 100px 95px;
   }
@@ -332,7 +317,6 @@
     to { transform: rotate(360deg); }
   }
 
-  /* Hub glow dot */
   .hub-dot {
     fill: white;
     opacity: 0;
@@ -350,7 +334,6 @@
     50% { filter: drop-shadow(0 0 14px rgba(0, 212, 170, 1)); }
   }
 
-  /* Energy pulse rings */
   .pulse {
     fill: none;
     stroke: rgba(0, 212, 170, 0.5);
@@ -359,10 +342,7 @@
     transform-origin: 100px 95px;
   }
 
-  .alive .pulse {
-    animation: pulsate 2.4s ease-out infinite;
-  }
-
+  .alive .pulse { animation: pulsate 2.4s ease-out infinite; }
   .alive .p2 { animation-delay: 0.8s; }
   .alive .p3 { animation-delay: 1.6s; }
 
@@ -371,16 +351,14 @@
     100% { transform: scale(6); opacity: 0; stroke-width: 0.2; }
   }
 
-  /* ─── Brand Text ─── */
+  /* --- Brand Text --- */
   .brand {
     text-align: center;
     opacity: 0;
     pointer-events: none;
   }
 
-  .brand.visible {
-    opacity: 1;
-  }
+  .brand.visible { opacity: 1; }
 
   .brand-letters {
     display: flex;
@@ -425,7 +403,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ─── Skip Hint ─── */
+  /* --- Skip Hint --- */
   .skip {
     position: absolute;
     bottom: 2rem;
@@ -438,7 +416,7 @@
     pointer-events: none;
   }
 
-  /* ─── Exit Energy Flash ─── */
+  /* --- Exit Flash --- */
   .flash {
     position: absolute;
     top: 42%;
@@ -464,33 +442,16 @@
     100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
   }
 
-  /* ─── Responsive ─── */
+  /* --- Responsive --- */
   @media (max-width: 768px) {
-    .turbine {
-      width: 170px;
-    }
-
-    .char {
-      font-size: 1.9rem;
-    }
-
-    .tagline {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-    }
+    .turbine { width: 170px; }
+    .char { font-size: 1.9rem; }
+    .tagline { font-size: 0.7rem; letter-spacing: 0.15em; }
   }
 
   @media (max-width: 480px) {
-    .turbine {
-      width: 150px;
-    }
-
-    .char {
-      font-size: 1.6rem;
-    }
-
-    .tagline {
-      font-size: 0.65rem;
-    }
+    .turbine { width: 150px; }
+    .char { font-size: 1.6rem; }
+    .tagline { font-size: 0.65rem; }
   }
 </style>

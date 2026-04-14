@@ -1,24 +1,26 @@
 <script>
   import { onMount } from "svelte";
 
-  export let texts = [];
-  export let typingSpeed = 120;
-  export let deletingSpeed = 60;
-  export let pause = 1100;
+  let { texts = [], typingSpeed = 120, deletingSpeed = 60, pause = 1100 } = $props();
 
-  let displayed = "";
+  let displayed = $state("");
   let textIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
+  let timerId;
 
   onMount(() => {
-    const type = () => {
+    function type() {
       const current = texts[textIndex];
 
       if (!isDeleting) {
         displayed = current.slice(0, ++charIndex);
         if (charIndex === current.length) {
-          setTimeout(() => (isDeleting = true), pause);
+          timerId = setTimeout(() => {
+            isDeleting = true;
+            timerId = setTimeout(type, deletingSpeed);
+          }, pause);
+          return;
         }
       } else {
         displayed = current.slice(0, --charIndex);
@@ -28,10 +30,12 @@
         }
       }
 
-      setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
-    };
+      timerId = setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
+    }
 
     type();
+
+    return () => clearTimeout(timerId);
   });
 </script>
 
