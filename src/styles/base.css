@@ -48,3 +48,25 @@ body::after {
   background-repeat: repeat;
   background-size: 200px 200px;
 }
+
+/* ================================
+   Dark Mode — Global Transitions
+   ================================ */
+html {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body,
+.stat-item,
+.service-card,
+.project-card,
+.timeline-content,
+.team-card {
+  transition: background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+}

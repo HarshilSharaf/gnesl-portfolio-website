@@ -45,11 +45,11 @@
 
 .cta-button.btn-white {
   background: white;
-  color: var(--dark);
+  color: #0a1628;
 }
 
 .cta-button.btn-white:hover {
   background: white;
-  color: var(--dark);
+  color: #0a1628;
   box-shadow: 0 10px 40px rgba(255, 255, 255, 0.25);
 }

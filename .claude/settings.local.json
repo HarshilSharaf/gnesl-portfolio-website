@@ -7,7 +7,8 @@
       "Bash(bun run:*)",
       "Bash(start http://localhost:5173/gnesl-portfolio-website/)",
       "Bash(bun add:*)",
-      "WebFetch(domain:www.google.com)"
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:localhost)"
     ]
   }
 }

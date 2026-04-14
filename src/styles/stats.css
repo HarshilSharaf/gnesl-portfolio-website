@@ -47,6 +47,18 @@
   );
 }
 
+[data-theme="dark"] .stat-item {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .stat-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 157, 88, 0.08) 0%,
+    rgba(0, 212, 170, 0.05) 100%
+  );
+}
+
 .stat-number {
   font-size: 3.2rem;
   font-weight: 800;

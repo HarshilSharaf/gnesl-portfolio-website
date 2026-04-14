@@ -216,6 +216,14 @@
   }
 }
 
+[data-theme="dark"] .section-watermark {
+  -webkit-text-stroke: 1.5px rgba(15, 157, 88, 0.08);
+}
+
+[data-theme="dark"] .floating-shape {
+  opacity: 0.1;
+}
+
 @media (max-width: 768px) {
   .section-watermark {
     font-size: 10rem;

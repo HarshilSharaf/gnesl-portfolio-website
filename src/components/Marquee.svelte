@@ -32,6 +32,10 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
+  :global([data-theme="dark"]) .marquee-section {
+    background: linear-gradient(135deg, #060d1a 0%, #0c1525 100%);
+  }
+
   .marquee-track {
     display: flex;
     width: max-content;

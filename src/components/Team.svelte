@@ -131,7 +131,8 @@
 
   .team-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 0 30px rgba(15, 157, 88, 0.15);
+    box-shadow: var(--shadow-lg, 0 8px 40px rgba(0, 0, 0, 0.12)),
+      var(--shadow-glow, 0 0 30px rgba(15, 157, 88, 0.15));
     border-color: #34c38f;
   }
 
@@ -205,9 +206,9 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: white;
-    color: #1a1a2e;
-    border: 1px solid #f1f5f9;
+    background: var(--surface, white);
+    color: var(--text-primary, #1a1a2e);
+    border: 1px solid var(--surface-muted, #f1f5f9);
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -218,7 +219,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
   }
 
   .carousel-btn:hover {
@@ -253,6 +254,10 @@
     padding: 0 !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
+  }
+
+  :global([data-theme="dark"] .sc-carousel-dot__dot) {
+    background: #334155 !important;
   }
 
   :global(.sc-carousel-dot__dot.sc-carousel-dot__dot_active) {

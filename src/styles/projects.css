@@ -82,6 +82,10 @@
   border-top: 1px solid var(--surface-muted);
 }
 
+[data-theme="dark"] .project-stats {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
 .project-stat {
   flex: 1;
 }
