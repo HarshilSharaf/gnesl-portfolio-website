@@ -25,10 +25,18 @@
     </noscript>
 
     <title>GNESL - Renewable Energy Solutions</title>
-    <script type="module" crossorigin src="/gnesl-portfolio-website/assets/index-DCognvDf.js"></script>
-    <link rel="modulepreload" crossorigin href="/gnesl-portfolio-website/assets/vendor-Df7YhBOX.js">
+    <script>
+      (function () {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/gnesl-portfolio-website/assets/index-BIsIjURc.js"></script>
+    <link rel="modulepreload" crossorigin href="/gnesl-portfolio-website/assets/vendor-DgZRuM_1.js">
     <link rel="stylesheet" crossorigin href="/gnesl-portfolio-website/assets/vendor-CWetrH3s.css">
-    <link rel="stylesheet" crossorigin href="/gnesl-portfolio-website/assets/index-wSJl13LF.css">
+    <link rel="stylesheet" crossorigin href="/gnesl-portfolio-website/assets/index-Dcd7aMPH.css">
   </head>
   <body>
     <div id="app"></div>
